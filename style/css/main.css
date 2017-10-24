@@ -1,0 +1,255 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes textIn {
+    0% {
+            transform: translate(0, 15px);
+            opacity: 0;}
+    100% {
+            transform: translate(0,0);
+            opacity: 1;}
+}
+
+@keyframes liTextIn {
+    0%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:1;
+    }
+}
+
+.li-text-in {
+    animation-name: liTextIn;
+    animation-duration: .7s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes textInP {
+    0% { top: 15px;
+            opacity: 0;}
+    50% {top: 15px;
+            opacity: 0;}
+    100% {top: 0px;
+            opacity: 1;}
+}
+
+@keyframes grow {
+    0%{
+        height: 50px;
+    }
+    
+    100%{
+        height: 220px;
+    }
+}
+
+@keyframes shrink {
+    0%{
+        height: 220px;
+    }
+    100%{
+        height: 50px;
+    }
+}
+
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes characterBox {
+    0%{
+        opacity: 0;
+        transform:translate(0, 150px);
+    }
+    100%{
+        opacity:1;
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes stillLoadingCharacterbox{
+    0%{
+        opacity: 0;
+        transform: translate(0, 500px);
+    }
+    100%{
+        opacity: 1;
+        transform: translate(0, 170px);
+    }
+}
+
+@keyframes moveDown {
+    0%{
+        transform: translate(0, 0);
+    }
+    100%{
+        transform: translate(0, 170px);
+    }
+}
+
+@keyframes moveUp {
+    0%{
+        transform: translate(0, 170px);
+    }
+    100%{
+        transform: translate(0, 0);
+    }
+}
+
+.still-loading-characterbox{
+    animation-name: stillLoadingCharacterbox;
+    animation-duration:.75s;
+}
+
+.move-down {
+    animation-name: moveDown;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+.move-up {
+    animation-name: moveUp;
+    animation-duration: .15s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+.show-menu {
+    animation: textIn 1.5s;
+}
+
+.grow-me {
+    animation: grow .4s;
+    animation-fill-mode: forwards;
+    height: 300px;
+}
+
+.shrink-me {
+    animation: shrink .15s;
+    animation-fill-mode: forwards;
+    height: 50px;
+}
+
+.character-box {
+    box-sizing: border-box;
+    border: 3px solid black;
+    margin: 0 auto;
+    position: relative;
+}
+
+.applyCharAni {
+    animation-name: characterBox;
+    animation-duration: 0.75s;
+}
+
+.character-div h1, h1, p, .after-append {
+    animation: textIn .75s;
+    position: relative;
+    animation-fill-mode: forwards;
+}
+
+.character-div p {
+    animation: textInP .35s;
+    font-weight: bold;
+}
+
+.character-div h1, .character-div p {
+    margin-left: 2%;
+    margin-right: 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.character-div h1{
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+
+
+.main-div {
+    background-color: beige;
+}
+
+.character-box {
+    position: relative;
+    width:80%;
+    margin: 0 auto 0 auto;
+    background-color: lightyellow;
+}
+
+.navigation {
+    text-align: center;
+    text-decoration: none;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+div img {
+    
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    
+}
+
+.tall {
+    display:block;
+    height: 500px;
+}
+
+nav {
+    display: block;
+    background-color: beige;
+    font-size: xx-large;
+
+}
+
+nav a{
+    text-decoration: none;
+    color: black;
+}
+
+nav ul{
+    width: 80%;
+    margin:0 auto;
+    list-style: none;
+}
+
+.no-display {
+    display: none;
+    opacity: 0;
+}
+
+.fade-out-display {
+    animation: fadeOut .1s;
+    animation-fill-mode: forwards;
+    
+}
+
+@media(max-width: 600px)
+{
+    .character-box
+    {
+        width: 100%;
+    }
+
+    .character-div
+    {
+        font-size: 0.75em;
+    }
+}
+
