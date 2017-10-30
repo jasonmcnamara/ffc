@@ -304,118 +304,136 @@ ffc.navDivDragger = (function(){
 
     var isGrown = false;
 
-    var addDrag = function(){
+    var noSuch;
+    
+    var testEl = document.querySelector("h1");
 
-        var liFunc = function(event){
-            event.stopPropagation();
-        }
+    var liFunc = function(event){
+        event.stopPropagation();
+    }
 
-        var testEl = document.querySelector("h1");
-        //console.log(testEl);
-        var noSuch;
+    var shrinkFunc = function(element){
+        
+                    console.log("AYYYYY");
+        
+                    noSuch = document.querySelector("#sorry");
+                    
+                    isGrown = false;
+        
+                    var testEl2 = document.querySelector("#character-box");
+                    //console.log(testEl2);
+                    //if(!testEl2){
+                    //    return null;
+                    //}
+        
+                    var loading = document.querySelector("[name=loading]");
+                    if(loading)
+                    {
+                        loading.classList.remove("move-down");
+                        loading.className += " move-up";
+                    }
+        
+                    testEl.classList.remove("move-down");
+                    testEl.className += " move-up";
+                    if(testEl2)
+                    {
+                    testEl2.classList.remove("move-down");
+                    testEl2.className += " move-up";
+                    }
+        
+                    var ul = document.querySelector("ul");
+        
+                    ul.classList.remove("li-text-in");
+                    ul.className += " fade-out-display";
+        
+                    setTimeout(function(){
+                        ul.className += " no-display";
+                    }, 150);
+        
+                    var theLi = document.querySelectorAll("li");
+                    for(var i=0;i<4;i++)
+                    {
+                        theLi[i].classList.remove("test-class");
+                    }
+        
+                    if(noSuch)
+                    {
+                    noSuch.classList.remove("move-down");
+                    noSuch.className += " move-up";
+                    }
+        
+                    var nav = document.querySelector("nav");
+                    nav.removeEventListener("click", shrinkFunc);
+                    nav.addEventListener("click", growFunc);
+                }
+
+    var growFunc = function(element){
+                    
+                                noSuch = document.querySelector("#sorry");
+                    
+                                //this.classList.remove("shrink-me");
+                                //this.className += " grow-me";
+                    
+                                isGrown = true;
+                    
+                                document.querySelector("#header").style.opacity = 1;
+                    
+                                var testEl2 = document.querySelector("#character-box");
+                                //console.log(testEl2);
+                                //if(!testEl2){
+                                //    return null;
+                                //}
+                    
+                                var loading = document.querySelector("[name=loading]");
+                                if(loading)
+                                {
+                                    loading.classList.remove("move-up");
+                                    loading.className += " move-down";
+                                }
+                    
+                                
+                                testEl.classList.remove("move-up");
+                                testEl.className += " move-down";
+                                if(testEl2)
+                                {
+                                testEl2.classList.remove("applyCharAni");
+                                testEl2.classList.remove("move-up");
+                                testEl2.className += " move-down";
+                                }
+                                var ul = document.querySelector("ul");
+                                ul.classList.remove("no-display");
+                                ul.classList.remove("fade-out-display");
+                                ul.className += " li-text-in";
+                                var theLi = document.querySelectorAll("li");
+                                for(var i = 0;i < 4; i++)
+                                {
+                                    theLi[i].className += " test-class";
+                                    theLi[i].addEventListener("click", liFunc);
+                                }
+                    
+                                if(noSuch)
+                                {
+                                noSuch.classList.remove("move-up");
+                                noSuch.className += " move-down";
+                                }
+                                var nav = document.querySelector("nav");
+                                nav.removeEventListener("click", growFunc);
+                                nav.addEventListener("click", shrinkFunc);
+                            }
+
+    
+                            var addDrag = function(){
+
         
 
-        var shrinkFunc = function(element){
+        
+        //console.log(testEl);
+        
+        
 
-            console.log("AYYYYY");
+        
 
-            noSuch = document.querySelector("#sorry");
-            
-            isGrown = false;
-
-            var testEl2 = document.querySelector("#character-box");
-            //console.log(testEl2);
-            //if(!testEl2){
-            //    return null;
-            //}
-
-            var loading = document.querySelector("[name=loading]");
-            if(loading)
-            {
-                loading.classList.remove("move-down");
-                loading.className += " move-up";
-            }
-
-            testEl.classList.remove("move-down");
-            testEl.className += " move-up";
-            if(testEl2)
-            {
-            testEl2.classList.remove("move-down");
-            testEl2.className += " move-up";
-            }
-            this.childNodes[3].classList.remove("li-text-in");
-            this.childNodes[3].className += " fade-out-display";
-            var ul = this.childNodes[3];
-            setTimeout(function(){
-                ul.className += " no-display";
-            }, 150);
-
-            var theLi = document.querySelectorAll("li");
-            for(var i=0;i<4;i++)
-            {
-                theLi[i].classList.remove("test-class");
-            }
-
-            if(noSuch)
-            {
-            noSuch.classList.remove("move-down");
-            noSuch.className += " move-up";
-            }
-            this.removeEventListener("click", shrinkFunc);
-            this.addEventListener("click", growFunc);
-        }
-
-        var growFunc = function(element){
-
-            noSuch = document.querySelector("#sorry");
-
-            //this.classList.remove("shrink-me");
-            //this.className += " grow-me";
-
-            isGrown = true;
-
-            document.querySelector("#header").style.opacity = 1;
-
-            var testEl2 = document.querySelector("#character-box");
-            //console.log(testEl2);
-            //if(!testEl2){
-            //    return null;
-            //}
-
-            var loading = document.querySelector("[name=loading]");
-            if(loading)
-            {
-                loading.classList.remove("move-up");
-                loading.className += " move-down";
-            }
-
-            
-            testEl.classList.remove("move-up");
-            testEl.className += " move-down";
-            if(testEl2)
-            {
-            testEl2.classList.remove("applyCharAni");
-            testEl2.classList.remove("move-up");
-            testEl2.className += " move-down";
-            }
-            this.childNodes[3].classList.remove("no-display");
-            this.childNodes[3].classList.remove("fade-out-display");
-            this.childNodes[3].className += " li-text-in";
-            var theLi = document.querySelectorAll("li");
-            for(var i = 0;i < 4; i++)
-            {
-                theLi[i].className += " test-class";
-                theLi[i].addEventListener("click", liFunc);
-            }
-
-            if(noSuch)
-            {
-            noSuch.classList.remove("move-up");
-            noSuch.className += " move-down";
-            }
-            this.removeEventListener("click", growFunc);
-            this.addEventListener("click", shrinkFunc);
-        }
+        
 
         if(document.addEventListener)
         {
@@ -442,7 +460,8 @@ ffc.navDivDragger = (function(){
 
     return {
         addDrag: addDrag,
-        returnIsGrown: returnIsGrown
+        returnIsGrown: returnIsGrown,
+        shrinkFunc: shrinkFunc
     }
 }());
 
@@ -490,6 +509,8 @@ ffc.menuClick = (function(){
         var liFunc = function(event){
             console.log(ffc.stateHandler.returnState());
             console.log(this.getAttribute("name"));
+
+            ffc.navDivDragger.shrinkFunc();
 
             if(this.getAttribute("name") === ffc.stateHandler.returnState())
             {
