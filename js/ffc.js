@@ -452,6 +452,7 @@ ffc.noSuch = (function(){
     sorry.id = "sorry";
     sorry.style.height = "500px";
     sorry.style.width = "100%";
+    sorry.style.textAlign = "center";
     sorry.innerHTML = "<p>Sorry this is not an option</p>";
     
 

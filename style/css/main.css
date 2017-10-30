@@ -108,7 +108,7 @@
 
 .still-loading-characterbox{
     animation-name: stillLoadingCharacterbox;
-    animation-duration:.75s;
+    animation-duration:.3s;
     animation-fill-mode: forwards;
 }
 
@@ -151,7 +151,7 @@
 
 .applyCharAni {
     animation-name: characterBox;
-    animation-duration: 0.75s;
+    animation-duration: 0.3s;
 }
 
 .character-div h1, h1, p, .after-append {
