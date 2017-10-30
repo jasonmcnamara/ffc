@@ -109,6 +109,7 @@
 .still-loading-characterbox{
     animation-name: stillLoadingCharacterbox;
     animation-duration:.75s;
+    animation-fill-mode: forwards;
 }
 
 .move-down {
@@ -239,6 +240,8 @@ nav ul{
     animation-fill-mode: forwards;
     
 }
+
+
 
 @media(max-width: 600px)
 {

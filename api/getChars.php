@@ -111,7 +111,7 @@
                 ]
             ];
             $data["testCheck"] = "Chyeah!";
-            $data["theGetDataBruh"] = $_GET["x"];
+            $data["theGetDataBruh"] = $sanitizedGet;
             echo json_encode($data);
             break;
 
@@ -120,19 +120,22 @@
                 "ff5" => [
                     "characterNames" => [
                         "Bartz-Klauser",
-                        "Bartz-Klauser",
                         "Maduin",
                         "The-Warring-Triad"
+                    ],
+                    "characterBio" => [
+                        "The first bio",
+                        "The second bio"
                     ]
                 ]
             ];
             $data["testCheck"] = "Chyeah!";
-            $data["theGetDataBruh"] = $_GET["x"];
+            $data["theGetDataBruh"] = $sanitizedGet;
             echo json_encode($data);
             break;
         default:
             $data["testCheck"] = "Nopey";
-            $data["theGetDataBruh"] = $_GET["x"];
+            $data["theGetDataBruh"] = $sanitizedGet;
             $data["hoody"] = "hoo";
             echo json_encode($data);
         

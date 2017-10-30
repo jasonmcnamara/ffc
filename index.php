@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width">
-    <!-- <link rel="stylesheet" type="text/css" href="style/css/main.css" > -->
     <title>Cast of Final Fantasy v1.0</title>
     <style>
 
@@ -170,6 +169,11 @@
                                                                     </span></div>
     </div>
     <script>
+
+
+        var indexFolder = "<?php echo basename(__DIR__); ?>";
+        
+
         (function(){
             var aTest = document.querySelectorAll("a");
              var aTestFunc = function(event){
@@ -182,7 +186,7 @@
             }
         }())
     </script>
-    <script type="text/javascript" src="/ffc/dist/bundle.js"></script>
+    <script type="text/javascript" src="/<?php echo basename(__DIR__); ?>/dist/bundle.js"></script>
 </body>
 </html>
 

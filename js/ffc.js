@@ -1,20 +1,23 @@
 import * as Images from "../js/imageList.js";
 
-var specialVar = (function(){
-    function test(){
-        console.log("From test()");
+var ffc = {};
+
+ffc.specialVar = (function(){
+    var routeArray = ["ff6","ff5","ff4","ff7"];
+
+    var returnRouteArray = function(){
+        return routeArray;
     }
 
-    var aValue = 5;
+    var allLi = document.querySelectorAll("li");
 
     return {
-        aValue: aValue,
-        testString : "testString"
+        returnRouteArray: returnRouteArray
     };
 
 }());
 
-var routeHandler = (function(){
+ffc.routeHandler = (function(){
     var routeTest = function(){
         console.log("From routeTest");
     }
@@ -36,7 +39,7 @@ var routeHandler = (function(){
 
 }());
 
-var dataGetter = (function(){
+ffc.dataGetter = (function(){
     var makeCall = function(x){//x is the url pathname [2]
 
         var ajaxCall = new XMLHttpRequest();
@@ -79,20 +82,35 @@ var dataGetter = (function(){
                     var dataBruh = JSON.parse(ajaxCall.responseText)["theGetDataBruh"];
                     //console.log(dataBruh);
                     //console.log(ajaxCall.responseText);
+
+                    var isACharBox = document.querySelector("#character-box");
+
                     switch(dataBruh)
                     {
                         case "ff6":
-                            console.log("from here ff6");
-                            charBoxBuilder.buildTheBoxes(convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
-                                                            convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterBio']);
-                            break;
+                        
                         case "ff5":
-                            console.log("from here ff5");
-                            charBoxBuilder.buildTheBoxes(convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames']);
+
+                        case "ff4":
+
+                        case "ff7":
+                            console.log("from here "+dataBruh);
+                            console.log(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]);
+                            if(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]){
+                            ffc.charBoxBuilder.buildTheBoxes(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
+                                                            ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterBio'],
+                                                            dataBruh);
+                            }
+                            else
+                            {
+                                ffc.noSuch.runSorry();
+                            }
+                            ffc.stateHandler.stateSetter(dataBruh);
                             break;
                         default:
                             console.log("From default");
-                            noSuch.runSorry();
+                            ffc.noSuch.runSorry();
+                            ffc.stateHandler.stateSetter(dataBruh);
                     }
                 }
 
@@ -111,7 +129,7 @@ var dataGetter = (function(){
 
 }());
 
-var convertJSONData = (function(){
+ffc.convertJSONData = (function(){
     var convert = function(x){
         return JSON.parse(x);
     }
@@ -121,60 +139,34 @@ var convertJSONData = (function(){
     }
 }());
 
-var charBoxBuilder = (function(){
-    var buildTheBoxes = function(x, y){//the x is the list of character names from getChars, y is their bio
-        var mainDiv = document.querySelector("[name=main-div]");
+ffc.charBoxBuilder = (function(){
 
-        //var theHeader = document.createElement("h1");
-        //theHeader.innerText = "The Characters Of Final Fantasy";
-        //theHeader.className += " center-text";
-        //console.log(theHeader);
-        //mainDiv.appendChild(theHeader);
-        //console.log(mainDiv.childNodes);
-        //mainDiv.insertBefore(theHeader, mainDiv.childNodes[3]);
+    var characterSlot = [];
 
-        var characterBox = document.createElement("div");
-        characterBox.className += " character-box";
-        characterBox.id = "character-box";
-        //characterBox.style.backgroundColor = "cyan";
-        //characterBox.style.boxSizing = "border-box";
-        //characterBox.style.border = "solid black 3px";
-        //characterBox.style.margin = "0 auto 0 auto";
-        characterBox.className += " overflow-auto";
-        //characterBox.style.position = "relative";
-        //mainDiv.appendChild(characterBox);
-        
-        var characterSlot = [];
+    var characterBio = [];
 
-        var characterBio = [];
+    var imageTest = [];
 
-        var parentHeight;
+    var imageTestFunc = [];
 
-        var imageTest = [];
+    var parentHeight;
 
-        var imageTestFunc = [];
+    var testNumber = 0;
 
-        var testNumber = 0;
+    var mainDiv = document.querySelector("[name=main-div]");
 
-        var clickFunc = function(event){
-            //console.log(event);
-            //console.log(this);
-            //console.log(this.getAttribute("name"));
-            //console.log(characterBio[this.getAttribute("name")]);
-            if(characterBio[this.getAttribute("name")])
-            {
-                alert(characterBio[this.getAttribute("name")]);
-            }
+    var clickFunc = function(event){
+        if(characterBio[this.getAttribute("name")])
+        {
+            console.log(characterBio[this.getAttribute("name")]);
         }
+    }
 
-        //console.log(x.length - 1);
+    var fillTheBoxes = function(x, y, zz)
+    {
 
         for(var i = 0;i < (x.length);i++)
         {
-
-            //console.log(x[i]);
-            //console.log(testNumber);
-           
             var n = x[i].indexOf('-');
             var z = x[i].substring(0, n != -1 ? n : x[i].length);
 
@@ -186,69 +178,59 @@ var charBoxBuilder = (function(){
             characterSlot[i].style.boxSizing = "border-box";
             characterSlot[i].style.border = "solid black 1px";
             characterSlot[i].style.backgroundColor = "white";
-            //characterSlot[i].style.backgroundImage = 'url("http://localhost:81/ffc/dist/'+Images[z]+'")';
-            //characterSlot[i].style.backgroundImage = `url("./images/jpg/`+characterNames[i]+`.jpg")`;
             characterSlot[i].style.backgroundSize = "contain";
             characterSlot[i].style.backgroundRepeat = "no-repeat";
             characterSlot[i].style.backgroundPosition = "center";
-            /* characterSlot[i].innerHTML = `<div class="character-wrapper"><h1 class="center-text"><span>`+characterNames[i]+`</span></h1><div>`; */
             characterSlot[i].style.float = "left";
+            
             if(y)
             {
             characterBio[x[i]] = y[i];
             }    
             characterSlot[i].addEventListener("click", clickFunc);
 
-            characterBox.appendChild(characterSlot[i]);
-            //console.log(characterBox);
-
-            //console.log(document.querySelector("[name="+x[i]+"]"));
-
-            //console.log(i)
+            zz.appendChild(characterSlot[i]);
+            
             imageTest[i] = new Image();
-            //console.log(imageTest[i]);
             
-            
-
             imageTestFunc[i] = function(){
 
-                //console.log(this);
-                //console.log(imageTest);
                 characterSlot[testNumber].appendChild(imageTest[testNumber]);
-                //console.log(testNumber);
+                
                 if (testNumber === (x.length - 1))
                 {
-                    //console.log("yooooo");
                     var loadingDiv = document.querySelector("[name=loading]");
                     if(loadingDiv)
                     {
                         mainDiv.removeChild(loadingDiv);
                     }
 
-                    //console.log(navDivDragger.returnIsGrown());
-                    if(navDivDragger.returnIsGrown())
+                    //if(ffc.navDivDragger.returnIsGrown())
+                    //{
+                    //    zz.style.transform = "translate(0, 170px)";
+                    //}
+                    if(!ffc.navDivDragger.returnIsGrown())
                     {
-                        characterBox.style.transform = "translate(0, 170px)";
-                    }
-                    
-                    mainDiv.appendChild(characterBox);
-                    if(!navDivDragger.returnIsGrown())
-                    {
-                        //console.log("from is nav");
-                        characterBox.className += " applyCharAni";
+                        zz.className += " applyCharAni";
                     }
                     else{
-                        characterBox.className += " still-loading-characterbox";
+                        zz.className += " still-loading-characterbox";
                     }
-                }
-                //console.log(testNumber);
-                //console.log(x.length);
-                testNumber++;
-                
-                
-            }
 
-            //imageTest[i].onload = imageTestFunc[i];
+                    console.log("right before");
+
+                    if(!document.querySelector("#character-box")){
+                    mainDiv.appendChild(zz);
+                    }
+                    
+                    zz.style.opacity = 1;
+                    
+                    console.log(ffc.navDivDragger.returnIsGrown());
+                    testNumber = 0;
+                    return null;
+                }
+                testNumber++;                
+            }
 
             if(imageTest[i].addEventListener)
             {
@@ -259,8 +241,7 @@ var charBoxBuilder = (function(){
                 imageTest[i].attachEvent("onload", imageTestFunc[i]);                
             }
 
-            //imageTest[i].src = "http://localhost:81/ffc/dist/"+Images[z];
-            imageTest[i].src = "https://mycanvas.000webhostapp.com/ffc/dist/"+Images[z];
+            imageTest[i].src = "/ffc/dist/"+Images[z];
 
             function isEven(n) {
                 /* If the character slot added is even I use this to check it, and then add to the character box height */
@@ -275,17 +256,38 @@ var charBoxBuilder = (function(){
                 parent.style.height = parentHeight+"px";
             }
         }
+    }
 
+    var buildTheBoxes = function(x, y, z){//the x is the list of character names from getChars, y is their bio, z is the FF title name
+        
+        if(!document.querySelector("#character-box")){
+            console.log(characterBox);
+            console.log("Hello from here");
+            var characterBox = document.createElement("div");
+            characterBox.className += " character-box";
+            characterBox.id = "character-box";
+            characterBox.className += " overflow-auto";
+            characterBox.setAttribute("name", z);
 
-
+            if(document.querySelector("#sorry")){
+                mainDiv.removeChild(document.querySelector("#sorry"));
+            }
+            fillTheBoxes(x, y, characterBox);
+        }
+        else
+        {
+            console.log("Already a box in here");
+            fillTheBoxes(x, y, document.querySelector("#character-box"));
+        }
     }
 
     return {
-        buildTheBoxes : buildTheBoxes
+        buildTheBoxes : buildTheBoxes,
+        fillTheBoxes : fillTheBoxes
     }
 }());
 
-var popStateHandler = (function(){
+ffc.popStateHandler = (function(){
 
     var popFunc = function(event){
         console.log("From popStateHandler");
@@ -298,26 +300,11 @@ var popStateHandler = (function(){
 
 }());
 
-var navDivDragger = (function(){
+ffc.navDivDragger = (function(){
 
     var isGrown = false;
 
     var addDrag = function(){
-
-        var dragFunc = function(){
-            console.log(this);
-
-            var origin = function(){
-                return event.clientY;
-                }
-
-            console.log(origin());
-
-            this.style.height = event.clientY+"px";
-        }
-
-
-        var beenGrown = false;
 
         var liFunc = function(event){
             event.stopPropagation();
@@ -325,14 +312,15 @@ var navDivDragger = (function(){
 
         var testEl = document.querySelector("h1");
         //console.log(testEl);
-
+        var noSuch;
         
 
         var shrinkFunc = function(element){
-            
-            //this.classList.remove("grow-me");
-            //this.className += " shrink-me";
 
+            console.log("AYYYYY");
+
+            noSuch = document.querySelector("#sorry");
+            
             isGrown = false;
 
             var testEl2 = document.querySelector("#character-box");
@@ -357,6 +345,10 @@ var navDivDragger = (function(){
             }
             this.childNodes[3].classList.remove("li-text-in");
             this.childNodes[3].className += " fade-out-display";
+            var ul = this.childNodes[3];
+            setTimeout(function(){
+                ul.className += " no-display";
+            }, 150);
 
             var theLi = document.querySelectorAll("li");
             for(var i=0;i<4;i++)
@@ -364,11 +356,18 @@ var navDivDragger = (function(){
                 theLi[i].classList.remove("test-class");
             }
 
+            if(noSuch)
+            {
+            noSuch.classList.remove("move-down");
+            noSuch.className += " move-up";
+            }
             this.removeEventListener("click", shrinkFunc);
             this.addEventListener("click", growFunc);
         }
 
         var growFunc = function(element){
+
+            noSuch = document.querySelector("#sorry");
 
             //this.classList.remove("shrink-me");
             //this.className += " grow-me";
@@ -408,7 +407,12 @@ var navDivDragger = (function(){
                 theLi[i].className += " test-class";
                 theLi[i].addEventListener("click", liFunc);
             }
-            
+
+            if(noSuch)
+            {
+            noSuch.classList.remove("move-up");
+            noSuch.className += " move-down";
+            }
             this.removeEventListener("click", growFunc);
             this.addEventListener("click", shrinkFunc);
         }
@@ -442,22 +446,31 @@ var navDivDragger = (function(){
     }
 }());
 
-var noSuch = (function(){
+ffc.noSuch = (function(){
 
     var sorry = document.createElement("div");
-    sorry.style.backgroundColor = "yellow";
     sorry.id = "sorry";
     sorry.style.height = "500px";
     sorry.style.width = "100%";
     sorry.innerHTML = "<p>Sorry this is not an option</p>";
+    
 
     var mainDiv = document.querySelector("[name=main-div]");
 
     var runSorry = function(){
         var loading = document.querySelector("[name=loading]");
+        var charbox = document.querySelector("#character-box");
+        
         if(loading)
         {
             mainDiv.removeChild(loading);
+        }
+        if(charbox){
+            mainDiv.removeChild(charbox);
+        }
+        if(ffc.navDivDragger.returnIsGrown()){
+            sorry.classList.remove("move-down");
+            sorry.className += " still-loading-characterbox";
         }
         mainDiv.appendChild(sorry);
     }
@@ -467,24 +480,37 @@ var noSuch = (function(){
     }
 }());
 
-var menuClick = (function(){
+ffc.menuClick = (function(){
+
+    
     
     var setLiFunc = function(x){
 
-        //console.log("from setLiFunc");
+        var liFunc = function(event){
+            console.log(ffc.stateHandler.returnState());
+            console.log(this.getAttribute("name"));
 
-        //console.log(x);
-        //console.log(x.length);
-
-        var liFunc = function(){
-            //console.log(this);
-            history.pushState(null, null, "/ffc/ff5/");
-            alert("Load new state now");
-            //console.log(document.querySelector("#main-div").childNodes);
-            if(document.querySelector("#character-box"))
+            if(this.getAttribute("name") === ffc.stateHandler.returnState())
             {
-            document.querySelector("#main-div").removeChild(document.querySelector("#character-box"));
+                console.log("chyup");
+                return null;
             }
+            var characterBox = document.querySelector("#character-box");
+            console.log(this.getAttribute("name"));
+            if(characterBox){
+                console.log("there is a character box");
+                characterBox.innerHTML = "";
+                characterBox.classList.remove("move-down");
+                characterBox.classList.remove("still-loading-characterbox");
+                characterBox.style.opacity = 0;
+                characterBox.setAttribute("name", this.getAttribute("name"));
+            }
+            
+            
+                history.pushState("", "", this.getAttribute("name"));
+                ffc.dataGetter.makeCall(this.getAttribute("name"));
+                console.log(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
+            
         }
 
         if(x)
@@ -504,13 +530,27 @@ var menuClick = (function(){
 
 }());
 
-export {specialVar,
-        routeHandler, 
-        dataGetter, 
-        convertJSONData, 
-        charBoxBuilder, 
-        popStateHandler,
-        navDivDragger,
-        noSuch,
-        menuClick
-        };
+ffc.stateHandler = (function(){
+    var currentState = "Not yet set";
+
+    var callDataGetter = function(x)
+    {
+        ffc.dataGetter.makeCall(x);
+    }
+
+    var stateSetter = function(x){
+        currentState = x;
+        return null;
+    }
+
+    var returnState = function(){
+        return currentState;
+    }
+
+    return {
+        stateSetter: stateSetter,
+        returnState: returnState
+    }
+}());
+
+export { ffc };
