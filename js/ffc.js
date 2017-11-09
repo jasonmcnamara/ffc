@@ -58,7 +58,50 @@ ffc.routeHandler = (function(){
 }());
 
 ffc.dataGetter = (function(){
+
+
+    var mainDiv = document.querySelector("[name=main-div]");
+
+    var charBox;
+
+    var loader;
+
+    var sorry;
+
+    var boxChild = {};
+
     var makeCall = function(x){//x is the url pathname [2]
+
+        console.log("From makeCall()");
+        console.log(boxChild);
+        boxChild = ffc.charBoxBuilder.returnContentObj();
+        console.dir(boxChild);
+        if(boxChild[x])
+        {
+            console.log("From if");
+            charBox = document.querySelector("#character-box");
+            if(charBox)
+            {
+            mainDiv.removeChild(charBox);
+            }
+            loader = document.querySelector("[name=loading]");
+            if(loader)
+            {
+            mainDiv.removeChild(loader);
+            }
+            sorry = document.querySelector("#sorry");
+            if(sorry){
+                mainDiv.removeChild(sorry);
+            }
+
+            boxChild[x].className += " applyCharAni";
+            boxChild[x].classList.remove("no-height");
+            mainDiv.appendChild(boxChild[x]);
+            console.log(boxChild);
+
+            ffc.stateHandler.stateSetter(x);
+            return null;
+        }
 
         var ajaxCall = new XMLHttpRequest();
 
@@ -117,7 +160,7 @@ ffc.dataGetter = (function(){
                             if(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]){
                             ffc.charBoxBuilder.buildTheBoxes(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
                                                             ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterBio'],
-                                                            dataBruh);
+                                                            dataBruh, x);
                             }
                             else
                             {
@@ -171,6 +214,8 @@ ffc.charBoxBuilder = (function(){
 
     var testNumber = 0;
 
+    var contentObj = {};
+
     var mainDiv = document.querySelector("[name=main-div]");
 
     var clickFunc = function(event){
@@ -180,7 +225,7 @@ ffc.charBoxBuilder = (function(){
         }
     }
 
-    var fillTheBoxes = function(x, y, zz)
+    var fillTheBoxes = function(x, y, zz, keyName)
     {
 
         
@@ -245,10 +290,18 @@ ffc.charBoxBuilder = (function(){
 
                     if(!document.querySelector("#character-box")){
                     mainDiv.appendChild(zz);
+                    
                     }
                     
                     zz.style.opacity = 1;
-                    
+
+                    console.log("This is zz: "+zz);
+
+                    if(!contentObj[keyName])
+                    {
+                        contentObj[keyName] = zz.cloneNode(true);
+                        console.log("Cloned a node");
+                    }
                     console.log(ffc.navDivDragger.returnIsGrown());
                     testNumber = 0;
                     return null;
@@ -282,7 +335,7 @@ ffc.charBoxBuilder = (function(){
         }
     }
 
-    var buildTheBoxes = function(x, y, z){//the x is the list of character names from getChars, y is their bio, z is the FF title name
+    var buildTheBoxes = function(x, y, z, keyName){//the x is the list of character names from getChars, y is their bio, z is the FF title name
         
         if(!document.querySelector("#character-box")){
             console.log(characterBox);
@@ -296,18 +349,23 @@ ffc.charBoxBuilder = (function(){
             if(document.querySelector("#sorry")){
                 mainDiv.removeChild(document.querySelector("#sorry"));
             }
-            fillTheBoxes(x, y, characterBox);
+            fillTheBoxes(x, y, characterBox, keyName);
         }
         else
         {
             console.log("Already a box in here");
-            fillTheBoxes(x, y, document.querySelector("#character-box"));
+            fillTheBoxes(x, y, document.querySelector("#character-box"), keyName);
         }
+    }
+
+    var returnContentObj = function(){
+        return contentObj;
     }
 
     return {
         buildTheBoxes : buildTheBoxes,
-        fillTheBoxes : fillTheBoxes
+        fillTheBoxes : fillTheBoxes,
+        returnContentObj : returnContentObj
     }
 }());
 
@@ -542,6 +600,8 @@ ffc.menuClick = (function(){
         var liFunc = function(event){
             console.log(ffc.stateHandler.returnState());
             console.log(this.getAttribute("name"));
+            console.log("We clicking");
+            console.log(ffc.charBoxBuilder.returnContentObj());
 
             ffc.navDivDragger.shrinkFunc();
 
@@ -553,25 +613,18 @@ ffc.menuClick = (function(){
             var mainDiv = document.querySelector("[name=main-div]");
             var characterBox = document.querySelector("#character-box");
             console.log(this.getAttribute("name"));
+            
             if(characterBox){
-                console.log("there is a character box");
-                console.log(ffc.storeLoadingEl.returnLoadingEl());
-                characterBox.style.opacity = 0;
-                characterBox.className += " no-height";
-                characterBox.innerHTML = "";
-                characterBox.classList.remove("move-down");
-                characterBox.classList.remove("still-loading-characterbox");
-                characterBox.setAttribute("name", this.getAttribute("name"));
-                mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
-            }
-            else{
-                mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
+                mainDiv.removeChild(characterBox);
             }
             
+            
+            mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
             
                 history.pushState("", "", this.getAttribute("name"));
                 ffc.dataGetter.makeCall(this.getAttribute("name"));
                 console.log(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
+                console.log("WE here now");
             
         }
 
