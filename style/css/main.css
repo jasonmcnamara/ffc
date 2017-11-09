@@ -241,6 +241,10 @@ nav ul{
     
 }
 
+.no-height {
+    height: 0;
+}
+
 
 
 @media(max-width: 600px)

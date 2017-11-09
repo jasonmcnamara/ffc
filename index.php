@@ -141,13 +141,17 @@
             display: none;
             opacity: 0;
         }
+
+        .menu-icon {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div name="main-div" id="main-div" class="main-div">
         <div name="navigation" id="navigation" class="navigation">
             <nav>
-                <a href="#">&#9776;</a>
+                <span class="menu-icon">&#9776;</span>
 
                 <ul class="menu no-display">
                     <li name="ff6">Final Fantasy 6</li>

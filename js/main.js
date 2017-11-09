@@ -25,6 +25,10 @@ for(var i = (justATest.length - 1); i > -1; i--)
 */
 window.addEventListener("popstate", ffc.popStateHandler.popFunc);
 
+ffc.storeLoadingEl.getLoadingEl();
+
+console.log(ffc.storeLoadingEl.returnLoadingEl());
+
 //console.log(document.querySelectorAll("li"));
 ffc.menuClick.setLiFunc(document.querySelectorAll("li"));
 

@@ -125,7 +125,9 @@
                     ],
                     "characterBio" => [
                         "The first bio",
-                        "The second bio"
+                        "The second bio",
+                        "The third bio",
+                        "The fourth bio"
                     ]
                 ]
             ];

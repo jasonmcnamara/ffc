@@ -2,6 +2,24 @@ import * as Images from "../js/imageList.js";
 
 var ffc = {};
 
+ffc.storeLoadingEl = (function(){
+
+    var loadingEl;
+
+    var getLoadingEl = function(){
+        loadingEl = document.querySelector("[name=loading]");
+    }
+
+    var returnLoadingEl = function(){
+        return loadingEl;
+    }
+
+    return {
+        getLoadingEl : getLoadingEl,
+        returnLoadingEl : returnLoadingEl
+    }
+}());
+
 ffc.specialVar = (function(){
     var routeArray = ["ff6","ff5","ff4","ff7"];
 
@@ -165,7 +183,11 @@ ffc.charBoxBuilder = (function(){
     var fillTheBoxes = function(x, y, zz)
     {
 
-        for(var i = 0;i < (x.length);i++)
+        
+
+        var theCount = x.length;
+
+        for(var i = 0;i < (theCount);i++)
         {
             var n = x[i].indexOf('-');
             var z = x[i].substring(0, n != -1 ? n : x[i].length);
@@ -199,12 +221,8 @@ ffc.charBoxBuilder = (function(){
                 
                 if (testNumber === (x.length - 1))
                 {
-                    var loadingDiv = document.querySelector("[name=loading]");
-                    if(loadingDiv)
-                    {
-                        mainDiv.removeChild(loadingDiv);
-                    }
-
+                    
+                    zz.classList.remove("no-height");
                     //if(ffc.navDivDragger.returnIsGrown())
                     //{
                     //    zz.style.transform = "translate(0, 170px)";
@@ -218,6 +236,12 @@ ffc.charBoxBuilder = (function(){
                     }
 
                     console.log("right before");
+
+                    var loadingDiv = document.querySelector("[name=loading]");
+                    if(loadingDiv)
+                    {
+                        mainDiv.removeChild(loadingDiv);
+                    }
 
                     if(!document.querySelector("#character-box")){
                     mainDiv.appendChild(zz);
@@ -332,6 +356,12 @@ ffc.navDivDragger = (function(){
                         loading.classList.remove("move-down");
                         loading.className += " move-up";
                     }
+                    else
+                    {
+                        //document.querySelector("[name=main-div]").appendChild(ffc.storeLoadingEl.returnLoadingEl());
+                        ffc.storeLoadingEl.returnLoadingEl().classList.remove("move-down");
+                        ffc.storeLoadingEl.returnLoadingEl().className += " move-up";
+                    }
         
                     testEl.classList.remove("move-down");
                     testEl.className += " move-up";
@@ -362,12 +392,15 @@ ffc.navDivDragger = (function(){
                     noSuch.className += " move-up";
                     }
         
-                    var nav = document.querySelector("nav");
+                    var nav = document.querySelector(".menu-icon");
                     nav.removeEventListener("click", shrinkFunc);
                     nav.addEventListener("click", growFunc);
                 }
 
     var growFunc = function(element){
+
+                                console.log(this);
+                                console.log(document.querySelector(".menu-icon"));
                     
                                 noSuch = document.querySelector("#sorry");
                     
@@ -416,7 +449,7 @@ ffc.navDivDragger = (function(){
                                 noSuch.classList.remove("move-up");
                                 noSuch.className += " move-down";
                                 }
-                                var nav = document.querySelector("nav");
+                                var nav = document.querySelector(".menu-icon");
                                 nav.removeEventListener("click", growFunc);
                                 nav.addEventListener("click", shrinkFunc);
                             }
@@ -437,10 +470,10 @@ ffc.navDivDragger = (function(){
 
         if(document.addEventListener)
         {
-            if(document.querySelector("nav"))
+            if(document.querySelector(".menu-icon"))
             {
                 //console.log(document.querySelector("nav").childNodes);
-                document.querySelector("nav").addEventListener("click", growFunc);
+                document.querySelector(".menu-icon").addEventListener("click", growFunc);
             }
             else
             {
@@ -450,7 +483,7 @@ ffc.navDivDragger = (function(){
         else
         {
             console.log("from attachEvent");
-            document.getElementsByTagName("nav").attachEvent("click", growFunc);
+            document.getElementsByTagName(".menu-icon").attachEvent("click", growFunc);
         }
     }
 
@@ -517,15 +550,22 @@ ffc.menuClick = (function(){
                 console.log("chyup");
                 return null;
             }
+            var mainDiv = document.querySelector("[name=main-div]");
             var characterBox = document.querySelector("#character-box");
             console.log(this.getAttribute("name"));
             if(characterBox){
                 console.log("there is a character box");
+                console.log(ffc.storeLoadingEl.returnLoadingEl());
+                characterBox.style.opacity = 0;
+                characterBox.className += " no-height";
                 characterBox.innerHTML = "";
                 characterBox.classList.remove("move-down");
                 characterBox.classList.remove("still-loading-characterbox");
-                characterBox.style.opacity = 0;
                 characterBox.setAttribute("name", this.getAttribute("name"));
+                mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
+            }
+            else{
+                mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
             }
             
             
