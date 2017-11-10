@@ -72,13 +72,10 @@ ffc.dataGetter = (function(){
 
     var makeCall = function(x){//x is the url pathname [2]
 
-        console.log("From makeCall()");
-        console.log(boxChild);
         boxChild = ffc.charBoxBuilder.returnContentObj();
-        console.dir(boxChild);
+        
         if(boxChild[x])
         {
-            console.log("From if");
             charBox = document.querySelector("#character-box");
             if(charBox)
             {
@@ -97,7 +94,6 @@ ffc.dataGetter = (function(){
             boxChild[x].className += " applyCharAni";
             boxChild[x].classList.remove("no-height");
             mainDiv.appendChild(boxChild[x]);
-            console.log(boxChild);
 
             ffc.stateHandler.stateSetter(x);
             return null;
@@ -133,47 +129,38 @@ ffc.dataGetter = (function(){
             {
                 if(ajaxCall.status === 200)
                 {
-                    //console.log("Success");
-                    //console.log(ajaxCall);
-                    //console.log(JSON.parse(ajaxCall.responseText));
-                    //console.log(JSON.parse(ajaxCall.responseText)["testCheck"]);
                     if(JSON.parse(ajaxCall.responseText)["theGetDataBruh"])
                     {
-                    //console.log(JSON.parse(ajaxCall.responseText)["theGetDataBruh"]);
-                    var dataBruh = JSON.parse(ajaxCall.responseText)["theGetDataBruh"];
-                    //console.log(dataBruh);
-                    //console.log(ajaxCall.responseText);
-
-                    var isACharBox = document.querySelector("#character-box");
-
-                    switch(dataBruh)
-                    {
-                        case "ff6":
+                        var dataBruh = JSON.parse(ajaxCall.responseText)["theGetDataBruh"];
                         
-                        case "ff5":
 
-                        case "ff4":
+                        var isACharBox = document.querySelector("#character-box");
 
-                        case "ff7":
-                            console.log("from here "+dataBruh);
-                            console.log(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]);
-                            if(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]){
-                            ffc.charBoxBuilder.buildTheBoxes(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
-                                                            ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterBio'],
-                                                            dataBruh, x);
-                            }
-                            else
-                            {
+                        switch(dataBruh)
+                        {
+                            case "ff6":
+                            
+                            case "ff5":
+
+                            case "ff4":
+
+                            case "ff7":
+                                if(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]){
+                                    ffc.charBoxBuilder.buildTheBoxes(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
+                                                                    ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterBio'],
+                                                                    dataBruh, x);
+                                    }
+                                else
+                                {
+                                    ffc.noSuch.runSorry();
+                                }
+                                ffc.stateHandler.stateSetter(dataBruh);
+                                break;
+                            default:
                                 ffc.noSuch.runSorry();
-                            }
-                            ffc.stateHandler.stateSetter(dataBruh);
-                            break;
-                        default:
-                            console.log("From default");
-                            ffc.noSuch.runSorry();
-                            ffc.stateHandler.stateSetter(dataBruh);
+                                ffc.stateHandler.stateSetter(dataBruh);
+                        }
                     }
-                }
 
                 }
                 else
@@ -227,9 +214,6 @@ ffc.charBoxBuilder = (function(){
 
     var fillTheBoxes = function(x, y, zz, keyName)
     {
-
-        
-
         var theCount = x.length;
 
         for(var i = 0;i < (theCount);i++)
@@ -268,19 +252,15 @@ ffc.charBoxBuilder = (function(){
                 {
                     
                     zz.classList.remove("no-height");
-                    //if(ffc.navDivDragger.returnIsGrown())
-                    //{
-                    //    zz.style.transform = "translate(0, 170px)";
-                    //}
-                    if(!ffc.navDivDragger.returnIsGrown())
+                    
+                    if(!ffc.navDiv.returnIsGrown())
                     {
                         zz.className += " applyCharAni";
                     }
-                    else{
+                    else
+                    {
                         zz.className += " still-loading-characterbox";
                     }
-
-                    console.log("right before");
 
                     var loadingDiv = document.querySelector("[name=loading]");
                     if(loadingDiv)
@@ -295,14 +275,10 @@ ffc.charBoxBuilder = (function(){
                     
                     zz.style.opacity = 1;
 
-                    console.log("This is zz: "+zz);
-
                     if(!contentObj[keyName])
                     {
                         contentObj[keyName] = zz.cloneNode(true);
-                        console.log("Cloned a node");
                     }
-                    console.log(ffc.navDivDragger.returnIsGrown());
                     testNumber = 0;
                     return null;
                 }
@@ -338,8 +314,6 @@ ffc.charBoxBuilder = (function(){
     var buildTheBoxes = function(x, y, z, keyName){//the x is the list of character names from getChars, y is their bio, z is the FF title name
         
         if(!document.querySelector("#character-box")){
-            console.log(characterBox);
-            console.log("Hello from here");
             var characterBox = document.createElement("div");
             characterBox.className += " character-box";
             characterBox.id = "character-box";
@@ -353,7 +327,6 @@ ffc.charBoxBuilder = (function(){
         }
         else
         {
-            console.log("Already a box in here");
             fillTheBoxes(x, y, document.querySelector("#character-box"), keyName);
         }
     }
@@ -382,7 +355,7 @@ ffc.popStateHandler = (function(){
 
 }());
 
-ffc.navDivDragger = (function(){
+ffc.navDiv = (function(){
 
     var isGrown = false;
 
@@ -396,17 +369,11 @@ ffc.navDivDragger = (function(){
 
     var shrinkFunc = function(element){
         
-                    console.log("AYYYYY");
-        
                     noSuch = document.querySelector("#sorry");
                     
                     isGrown = false;
         
                     var testEl2 = document.querySelector("#character-box");
-                    //console.log(testEl2);
-                    //if(!testEl2){
-                    //    return null;
-                    //}
         
                     var loading = document.querySelector("[name=loading]");
                     if(loading)
@@ -416,7 +383,6 @@ ffc.navDivDragger = (function(){
                     }
                     else
                     {
-                        //document.querySelector("[name=main-div]").appendChild(ffc.storeLoadingEl.returnLoadingEl());
                         ffc.storeLoadingEl.returnLoadingEl().classList.remove("move-down");
                         ffc.storeLoadingEl.returnLoadingEl().className += " move-up";
                     }
@@ -457,25 +423,16 @@ ffc.navDivDragger = (function(){
 
     var growFunc = function(element){
 
-                                console.log(this);
-                                console.log(document.querySelector(".menu-icon"));
-                    
                                 noSuch = document.querySelector("#sorry");
-                    
-                                //this.classList.remove("shrink-me");
-                                //this.className += " grow-me";
                     
                                 isGrown = true;
                     
                                 document.querySelector("#header").style.opacity = 1;
                     
                                 var testEl2 = document.querySelector("#character-box");
-                                //console.log(testEl2);
-                                //if(!testEl2){
-                                //    return null;
-                                //}
                     
                                 var loading = document.querySelector("[name=loading]");
+
                                 if(loading)
                                 {
                                     loading.classList.remove("move-up");
@@ -485,17 +442,20 @@ ffc.navDivDragger = (function(){
                                 
                                 testEl.classList.remove("move-up");
                                 testEl.className += " move-down";
+
                                 if(testEl2)
                                 {
                                 testEl2.classList.remove("applyCharAni");
                                 testEl2.classList.remove("move-up");
                                 testEl2.className += " move-down";
                                 }
+
                                 var ul = document.querySelector("ul");
                                 ul.classList.remove("no-display");
                                 ul.classList.remove("fade-out-display");
                                 ul.className += " li-text-in";
                                 var theLi = document.querySelectorAll("li");
+
                                 for(var i = 0;i < 4; i++)
                                 {
                                     theLi[i].className += " test-class";
@@ -512,47 +472,21 @@ ffc.navDivDragger = (function(){
                                 nav.addEventListener("click", shrinkFunc);
                             }
 
-    
-                            var addDrag = function(){
-
-        
-
-        
-        //console.log(testEl);
-        
-        
-
-        
-
-        
-
-        if(document.addEventListener)
-        {
-            if(document.querySelector(".menu-icon"))
-            {
-                //console.log(document.querySelector("nav").childNodes);
-                document.querySelector(".menu-icon").addEventListener("click", growFunc);
-            }
-            else
-            {
-                console.log("No querySelector");
-            }
-        }
-        else
-        {
-            console.log("from attachEvent");
-            document.getElementsByTagName(".menu-icon").attachEvent("click", growFunc);
-        }
-    }
 
     var returnIsGrown = function(){
         return isGrown;
     }
 
+    var addMenu = function(){
+        var navBtn = document.querySelector(".menu-icon");
+
+        navBtn.addEventListener("click", growFunc);
+    }
+    
     return {
-        addDrag: addDrag,
         returnIsGrown: returnIsGrown,
-        shrinkFunc: shrinkFunc
+        shrinkFunc: shrinkFunc,
+        addMenu: addMenu
     }
 }());
 
@@ -579,7 +513,7 @@ ffc.noSuch = (function(){
         if(charbox){
             mainDiv.removeChild(charbox);
         }
-        if(ffc.navDivDragger.returnIsGrown()){
+        if(ffc.navDiv.returnIsGrown()){
             sorry.classList.remove("move-down");
             sorry.className += " still-loading-characterbox";
         }
@@ -598,21 +532,15 @@ ffc.menuClick = (function(){
     var setLiFunc = function(x){
 
         var liFunc = function(event){
-            console.log(ffc.stateHandler.returnState());
-            console.log(this.getAttribute("name"));
-            console.log("We clicking");
-            console.log(ffc.charBoxBuilder.returnContentObj());
-
-            ffc.navDivDragger.shrinkFunc();
+            
+            ffc.navDiv.shrinkFunc();
 
             if(this.getAttribute("name") === ffc.stateHandler.returnState())
             {
-                console.log("chyup");
                 return null;
             }
             var mainDiv = document.querySelector("[name=main-div]");
             var characterBox = document.querySelector("#character-box");
-            console.log(this.getAttribute("name"));
             
             if(characterBox){
                 mainDiv.removeChild(characterBox);
@@ -622,18 +550,13 @@ ffc.menuClick = (function(){
             mainDiv.appendChild(ffc.storeLoadingEl.returnLoadingEl());
             
                 history.pushState("", "", this.getAttribute("name"));
-                ffc.dataGetter.makeCall(this.getAttribute("name"));
-                console.log(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
-                console.log("WE here now");
-            
+                ffc.dataGetter.makeCall(this.getAttribute("name"));            
         }
 
         if(x)
         {
             for(i = x.length - 1; i > -1; i--)
             {
-                //console.log(i);
-                //console.log(x[i]);
                 x[i].style.cursor = "pointer";
                 x[i].addEventListener("click", liFunc);
             }
