@@ -17,7 +17,6 @@ switch(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2])
         case "ff6":       
         case "ff5":
         case "ff7":
-        case "ff4":
             ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
             break;
         default:

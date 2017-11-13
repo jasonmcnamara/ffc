@@ -142,8 +142,6 @@ ffc.dataGetter = (function(){
                             
                             case "ff5":
 
-                            case "ff4":
-
                             case "ff7":
                                 if(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]){
                                     ffc.charBoxBuilder.buildTheBoxes(ffc.convertJSONData.convert(ajaxCall.responseText)[dataBruh]['characterNames'], 
@@ -218,11 +216,7 @@ ffc.charBoxBuilder = (function(){
     {
         weFillin = true;
 
-        var timeOut = setTimeout(function(){
-            ffc.noSuch.runSorry();
-            weFillin = false;
-            return null;
-        }, 4000);
+        
 
         while(zz.hasChildNodes())
         {
@@ -260,8 +254,6 @@ ffc.charBoxBuilder = (function(){
             imageTest[i] = new Image();
             
             imageTestFunc[i] = function(){
-
-                clearTimeout(timeOut);
 
                 characterSlot[testNumber].appendChild(imageTest[testNumber]);
                 
@@ -383,7 +375,6 @@ ffc.popStateHandler = (function(){
             case "ff6":
             case "ff7":    
             case "ff5":
-            case "ff4":
                 ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
                 break;
             default:
