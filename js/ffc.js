@@ -216,8 +216,13 @@ ffc.charBoxBuilder = (function(){
 
     var fillTheBoxes = function(x, y, zz, keyName)
     {
-
         weFillin = true;
+
+        var timeOut = setTimeout(function(){
+            ffc.noSuch.runSorry();
+            weFillin = false;
+            return null;
+        }, 4000);
 
         while(zz.hasChildNodes())
         {
@@ -256,6 +261,8 @@ ffc.charBoxBuilder = (function(){
             
             imageTestFunc[i] = function(){
 
+                clearTimeout(timeOut);
+
                 characterSlot[testNumber].appendChild(imageTest[testNumber]);
                 
                 if (testNumber === (x.length - 1))
@@ -288,6 +295,7 @@ ffc.charBoxBuilder = (function(){
                     if(!contentObj[keyName])
                     {
                         contentObj[keyName] = zz.cloneNode(true);
+                        console.dir(contentObj);
                     }
                     testNumber = 0;
                     weFillin = false;
@@ -373,13 +381,14 @@ ffc.popStateHandler = (function(){
         switch(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2])
         {
             case "ff6":
-                ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
-                break;
+            case "ff7":    
             case "ff5":
+            case "ff4":
                 ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
                 break;
             default:
                 ffc.dataGetter.makeCall("Testy");
+                break;
         }
     }
 
@@ -602,7 +611,6 @@ ffc.menuClick = (function(){
         {
             for( var i = x.length - 1; i > -1; i--)
             {
-                console.log(i);
                 x[i].style.cursor = "pointer";
                 x[i].addEventListener("click", liFunc);
             }

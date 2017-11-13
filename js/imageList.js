@@ -23,6 +23,8 @@ import Maduin from '../images/jpg/Maduin.jpg';
 import Madonna from '../images/jpg/Madonna.jpg';
 import The from '../images/jpg/The-Warring-Triad.jpg';
 import Bartz from '../images/jpg/Bartz-Klauser.jpg';
+import Cloud from '../images/jpg/Cloud-Strife.jpg';
+import Aeris from '../images/jpg/Aeris.jpg';
 
 export {Terra, 
         Locke,
@@ -48,4 +50,6 @@ export {Terra,
         Maduin,
         Madonna,
         The,
-        Bartz}
+        Bartz,
+        Cloud,
+        Aeris}

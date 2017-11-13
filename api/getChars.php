@@ -135,6 +135,40 @@
             $data["theGetDataBruh"] = $sanitizedGet;
             echo json_encode($data);
             break;
+        case "ff7":
+            $data = [
+                "ff7" => [
+                    "characterNames" => [
+                        "Cloud-Strife",
+                        "Aeris"
+                    ],
+                    "characterBio" => [
+                        "Cloud Bio",
+                        "Aeris Bio"
+                    ]
+                ]
+            ];
+            $data["testCheck"] = "Chyeah!";
+            $data["theGetDataBruh"] = $sanitizedGet;
+            echo json_encode($data);
+            break;
+        case "ff4":
+            $data = [
+                "ff4" => [
+                    "characterNames" => [
+                        "Test Name 1",
+                        "Test Name 2"
+                    ],
+                    "characterBio" => [
+                        "Test Bio 1",
+                        "Test Bio 2"
+                    ]
+                ]
+            ];
+            $data["testCheck"] = "Chyeah!";
+            $data["theGetDataBruh"] = $sanitizedGet;
+            echo json_encode($data);
+            break;
         default:
             $data["testCheck"] = "Nopey";
             $data["theGetDataBruh"] = $sanitizedGet;
