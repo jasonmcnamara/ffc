@@ -205,6 +205,8 @@ ffc.charBoxBuilder = (function(){
 
     var mainDiv = document.querySelector("[name=main-div]");
 
+    var weFillin = false;
+
     var clickFunc = function(event){
         if(characterBio[this.getAttribute("name")])
         {
@@ -215,13 +217,12 @@ ffc.charBoxBuilder = (function(){
     var fillTheBoxes = function(x, y, zz, keyName)
     {
 
+        weFillin = true;
+
         while(zz.hasChildNodes())
         {
             zz.removeChild(zz.lastChild);
         }
-
-
-
 
         var theCount = x.length;
 
@@ -289,6 +290,7 @@ ffc.charBoxBuilder = (function(){
                         contentObj[keyName] = zz.cloneNode(true);
                     }
                     testNumber = 0;
+                    weFillin = false;
                     return null;
                 }
                 testNumber++;                
@@ -350,10 +352,15 @@ ffc.charBoxBuilder = (function(){
         return contentObj;
     }
 
+    var returnWeFillin = function(){
+        return weFillin;
+    }
+
     return {
         buildTheBoxes : buildTheBoxes,
         fillTheBoxes : fillTheBoxes,
-        returnContentObj : returnContentObj
+        returnContentObj : returnContentObj,
+        returnWeFillin: returnWeFillin
     }
 }());
 
@@ -449,6 +456,11 @@ ffc.navDiv = (function(){
                 }
 
     var growFunc = function(element){
+
+                                if(ffc.charBoxBuilder.returnWeFillin())
+                                {
+                                    return null;
+                                }
 
                                 noSuch = document.querySelector("#sorry");
                     
@@ -561,6 +573,12 @@ ffc.menuClick = (function(){
         var liFunc = function(event){
             
             ffc.navDiv.shrinkFunc();
+
+            if(ffc.charBoxBuilder.returnWeFillin()){
+                console.log("from we fillin");
+                return null;
+            }
+            
 
             if(this.getAttribute("name") === ffc.stateHandler.returnState())
             {
