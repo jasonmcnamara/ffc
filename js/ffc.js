@@ -370,6 +370,11 @@ ffc.popStateHandler = (function(){
         console.log("From popStateHandler");
         event.preventDefault();
 
+        if(ffc.navDiv.returnIsGrown())
+        {
+            ffc.navDiv.shrinkFunc();
+        }
+
         switch(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2])
         {
             case "ff6":
