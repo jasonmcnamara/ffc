@@ -172,24 +172,7 @@
                                                                         <span class="el8">.</span>
                                                                     </span></div>
     </div>
-    <script>
-
-
-        var indexFolder = "<?php echo basename(__DIR__); ?>";
-        
-
-        (function(){
-            var aTest = document.querySelectorAll("a");
-             var aTestFunc = function(event){
-                event.preventDefault();
-            }
-
-            for( i = aTest.length - 1; i >= 0; --i)
-            {
-                aTest[i].addEventListener("click", aTestFunc);
-            }
-        }())
-    </script>
+    
     <script type="text/javascript" src="/<?php echo basename(__DIR__); ?>/dist/bundle.js"></script>
 </body>
 </html>

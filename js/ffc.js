@@ -221,6 +221,8 @@ ffc.charBoxBuilder = (function(){
         }
 
 
+
+
         var theCount = x.length;
 
         for(var i = 0;i < (theCount);i++)
@@ -315,11 +317,15 @@ ffc.charBoxBuilder = (function(){
                 parentHeight += 80;
                 parent.style.height = parentHeight+"px";
             }
+
+            
         }
     }
 
     var buildTheBoxes = function(x, y, z, keyName){//the x is the list of character names from getChars, y is their bio, z is the FF title name
         
+        
+
         if(!document.querySelector("#character-box")){
             var characterBox = document.createElement("div");
             characterBox.className += " character-box";
@@ -336,6 +342,8 @@ ffc.charBoxBuilder = (function(){
         {
             fillTheBoxes(x, y, document.querySelector("#character-box"), keyName);
         }
+
+        
     }
 
     var returnContentObj = function(){
@@ -574,8 +582,9 @@ ffc.menuClick = (function(){
 
         if(x)
         {
-            for(i = x.length - 1; i > -1; i--)
+            for( var i = x.length - 1; i > -1; i--)
             {
+                console.log(i);
                 x[i].style.cursor = "pointer";
                 x[i].addEventListener("click", liFunc);
             }
