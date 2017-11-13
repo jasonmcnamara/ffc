@@ -214,6 +214,13 @@ ffc.charBoxBuilder = (function(){
 
     var fillTheBoxes = function(x, y, zz, keyName)
     {
+
+        while(zz.hasChildNodes())
+        {
+            zz.removeChild(zz.lastChild);
+        }
+
+
         var theCount = x.length;
 
         for(var i = 0;i < (theCount);i++)
@@ -347,6 +354,18 @@ ffc.popStateHandler = (function(){
     var popFunc = function(event){
         console.log("From popStateHandler");
         event.preventDefault();
+
+        switch(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2])
+        {
+            case "ff6":
+                ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
+                break;
+            case "ff5":
+                ffc.dataGetter.makeCall(ffc.routeHandler.splitUrl(ffc.routeHandler.theUrl())[2]);
+                break;
+            default:
+                ffc.dataGetter.makeCall("Testy");
+        }
     }
 
     return {
